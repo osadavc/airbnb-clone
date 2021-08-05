@@ -4,6 +4,10 @@ module.exports = {
   darkMode: false,
   theme: {
     extend: {},
+    fontFamily: {
+      poppins: ["Poppins"],
+      quickSand: ["Quicksand"],
+    },
   },
   variants: {
     extend: {},

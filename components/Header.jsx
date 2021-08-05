@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import {
   SearchIcon,
@@ -8,8 +9,28 @@ import {
 } from "@heroicons/react/solid";
 
 const Header = () => {
+  const [transparentNav, setTransparentNav] = useState(false);
+
+  const changeNavBackground = () => {
+    if (window.scrollY >= 410) {
+      setTransparentNav(true);
+    } else {
+      setTransparentNav(false);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", changeNavBackground);
+  }, []);
+
   return (
-    <header className="fixed top-0 z-50 grid items-center grid-cols-3 p-5 shadow-md md:px-10 header w-full">
+    <header
+      className={
+        transparentNav
+          ? `fixed top-0 z-50 grid items-center grid-cols-3 p-5 shadow-md md:px-10 header w-full active-header`
+          : `fixed top-0 z-50 grid items-center grid-cols-3 p-5 shadow-md md:px-10 header w-full`
+      }
+    >
       {/* Left */}
       <div className="relative flex items-center justify-center h-10 cursor-pointer">
         <Image
@@ -26,17 +47,27 @@ const Header = () => {
         <input
           type="text"
           placeholder="Start Your Search"
-          className="flex-grow pl-5 text-white placeholder-white bg-transparent outline-none"
+          className={
+            transparentNav
+              ? `flex-grow pl-5 text-gray-600 placeholder-gray-400 bg-transparent outline-none duration-500 transition-colors`
+              : `flex-grow pl-5 text-white placeholder-white bg-transparent outline-none`
+          }
         />
         <SearchIcon className="hidden h-8 p-2 text-white bg-red-400 rounded-full cursor-pointer md:inline-flex md:mx-2" />
       </div>
 
       {/* Right */}
-      <div className="flex items-center justify-end space-x-4 text-white">
+      <div
+        className={
+          transparentNav
+            ? `flex items-center justify-end space-x-4 text-gray-500 duration-500 transition-colors`
+            : `flex items-center justify-end space-x-4 text-white`
+        }
+      >
         <p className="hidden cursor-pointer md:inline">Become a host</p>
         <GlobeAltIcon className="h-6 cursor-pointer" />
 
-        <div className="flex items-center p-2 space-x-2 border-2 rounded-full">
+        <div className="flex items-center p-2 space-x-2 border-[1.5px] rounded-full">
           <MenuIcon className="h-6" />
           <UserCircleIcon className="h-6" />
         </div>
