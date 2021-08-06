@@ -11,7 +11,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
 
-const search = ({ searchResults }) => {
+const Search = ({ searchResults }) => {
   const router = useRouter();
   const { location, startDate, endDate, noOfGuests } = router.query;
 
@@ -92,7 +92,7 @@ const search = ({ searchResults }) => {
   );
 };
 
-export default search;
+export default Search;
 
 export const getServerSideProps = async () => {
   const searchResults = await fetch("https://links.papareact.com/isz").then(
