@@ -26,7 +26,7 @@ const HeroSection = () => {
   }, []);
 
   return (
-    <div className="relative h-[400px] sm:h-[500px] lg:h-[600px] xl:h-[700px] 2xl:h-[800px]">
+    <div className="relative min-h-[400px] sm:min-h-[500px] lg:min-h-[600px] xl:min-h-[700px] 2xl:min-h-[800px]">
       <Image
         src="/images/heroImage.webp"
         layout="fill"

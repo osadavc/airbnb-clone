@@ -1,18 +1,58 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
+import Link from "next/link";
+
 import {
   SearchIcon,
   GlobeAltIcon,
   MenuIcon,
   UserCircleIcon,
   UserIcon,
+  UsersIcon,
 } from "@heroicons/react/solid";
 
-const Header = () => {
+import "react-date-range/dist/styles.css";
+import "react-date-range/dist/theme/default.css";
+import { DateRangePicker } from "react-date-range";
+import { useRouter } from "next/router";
+
+const Header = ({ placeholder, transparent }) => {
   const [transparentNav, setTransparentNav] = useState(false);
 
+  const [searchInput, setSearchInput] = useState("");
+  const [noOfGuests, setNoOfGuests] = useState(1);
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
+
+  const router = useRouter();
+
+  const selectionRange = {
+    startDate: startDate,
+    endDate: endDate,
+    key: "selection",
+  };
+
+  const handleSelect = (ranges) => {
+    setStartDate(ranges.selection.startDate);
+    setEndDate(ranges.selection.endDate);
+  };
+
+  const search = () => {
+    router.push({
+      pathname: "/search",
+      query: {
+        location: searchInput,
+        startDate: startDate.toISOString(),
+        endDate: endDate.toISOString(),
+        noOfGuests,
+      },
+    });
+
+    setSearchInput("");
+  };
+
   const changeNavBackground = () => {
-    if (window.scrollY >= 410) {
+    if (window.scrollY >= 200) {
       setTransparentNav(true);
     } else {
       setTransparentNav(false);
@@ -20,7 +60,11 @@ const Header = () => {
   };
 
   useEffect(() => {
-    window.addEventListener("scroll", changeNavBackground);
+    if (transparent) {
+      window.addEventListener("scroll", changeNavBackground);
+    } else {
+      setTransparentNav(true);
+    }
   }, []);
 
   return (
@@ -32,7 +76,10 @@ const Header = () => {
       }
     >
       {/* Left */}
-      <div className="relative flex items-center justify-center h-10 cursor-pointer">
+      <div
+        className="relative flex items-center justify-center h-10 cursor-pointer"
+        onClick={() => router.push("/")}
+      >
         <Image
           src="/images/airbnb.png"
           layout="fill"
@@ -45,13 +92,17 @@ const Header = () => {
       {/* Middle */}
       <div className="flex items-center py-2 rounded-full md:border-[1.5px] md:shadow-sm">
         <input
+          value={searchInput}
           type="text"
-          placeholder="Start Your Search"
+          placeholder={placeholder || "Start Your Search"}
           className={
             transparentNav
-              ? `flex-grow pl-5 text-gray-600 placeholder-gray-400 bg-transparent outline-none duration-500 transition-colors`
-              : `flex-grow pl-5 text-white placeholder-white bg-transparent outline-none`
+              ? `flex-grow pl-5 text-gray-600 placeholder-gray-400 bg-transparent outline-none duration-500 transition-colors font-quickSand`
+              : `flex-grow pl-5 text-white placeholder-white bg-transparent outline-none font-quickSand`
           }
+          onChange={(e) => {
+            setSearchInput(e.target.value);
+          }}
         />
         <SearchIcon className="hidden h-8 p-2 text-white bg-red-400 rounded-full cursor-pointer md:inline-flex md:mx-2" />
       </div>
@@ -72,6 +123,50 @@ const Header = () => {
           <UserCircleIcon className="h-6" />
         </div>
       </div>
+
+      {searchInput && (
+        <div className="flex flex-col col-span-3 mx-auto mt-5">
+          <DateRangePicker
+            ranges={[selectionRange]}
+            minDate={new Date()}
+            rangeColors={["#FD5B61"]}
+            onChange={handleSelect}
+            className="w-full"
+          />
+          <div
+            className={
+              transparentNav
+                ? `text-gray-600 flex items-center mt-2 mb-1`
+                : `text-white flex items-center mt-2 mb-1`
+            }
+          >
+            <h2 className="text-2xl flex-grow font-semibold font-quickSand">
+              Number Of Guests
+            </h2>
+
+            <UsersIcon className="h-5" />
+            <input
+              value={noOfGuests}
+              type="number"
+              className="w-12 pl-2 bg-transparent text-red-400"
+              onChange={(e) => setNoOfGuests(e.target.value)}
+              min={1}
+            />
+          </div>
+
+          <div className="flex justify-around font-quickSand">
+            <button
+              className={transparentNav ? ` text-gray-400` : ` text-white`}
+              onClick={() => setSearchInput("")}
+            >
+              Cancel
+            </button>
+            <button className="text-red-400" onClick={search}>
+              Search
+            </button>
+          </div>
+        </div>
+      )}
     </header>
   );
 };

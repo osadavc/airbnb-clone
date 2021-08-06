@@ -60,7 +60,7 @@ function Home({ exploreData, cardsData }) {
         />
       </Head>
 
-      <Header />
+      <Header transparent={true} />
       <HeroSection />
 
       <main className="max-w-7xl mx-auto px-8 sm:px-16 exploreNearbySection mt-5 font-quickSand">

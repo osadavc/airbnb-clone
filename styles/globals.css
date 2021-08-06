@@ -4,6 +4,10 @@
 
 @import url("https://fonts.googleapis.com/css2?family=Poppins&family=Quicksand&display=swap");
 
+* {
+  outline: none;
+}
+
 .header {
   background-color: rgba(0, 0, 0, 0.281);
   backdrop-filter: blur(3px);
@@ -12,4 +16,10 @@
 
 .active-header {
   background-color: rgb(255, 255, 255);
+}
+
+@layer components {
+  .filter-button {
+    @apply px-4 py-2 border transition rounded-full cursor-pointer hover:shadow-md active:scale-[0.95] active:bg-gray-100 ease-out;
+  }
 }
