@@ -9,6 +9,7 @@ import InfoCard from "../components/InfoCard";
 
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Map from "../components/Map";
 gsap.registerPlugin(ScrollTrigger);
 
 const Search = ({ searchResults }) => {
@@ -36,7 +37,7 @@ const Search = ({ searchResults }) => {
   const range = `${formattedStartDate} - ${formattedEndDate}`;
 
   return (
-    <div>
+    <div className="">
       <Head>
         <title>Airbnb | {location}</title>
         <link
@@ -84,6 +85,10 @@ const Search = ({ searchResults }) => {
               )
             )}
           </div>
+        </section>
+
+        <section className="hidden xl:inline-flex min-w-[450px] h-screen sticky top-5 bottom-5 my-10 ">
+          <Map searchResults={searchResults} />
         </section>
       </main>
 

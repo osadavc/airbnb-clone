@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
-import Link from "next/link";
 
 import {
   SearchIcon,
@@ -72,7 +71,7 @@ const Header = ({ placeholder, transparent }) => {
       className={
         transparentNav
           ? `fixed top-0 z-50 grid items-center grid-cols-3 p-5 shadow-md md:px-10 header w-full active-header`
-          : `fixed top-0 z-50 grid items-center grid-cols-3 p-5 shadow-md md:px-10 header w-full`
+          : `fixed top-0 z-50 grid items-center grid-cols-3 p-5 md:px-10 header w-full`
       }
     >
       {/* Left */}
